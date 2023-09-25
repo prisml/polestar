@@ -72,9 +72,24 @@ async function alertWindow() {
 
       // 필요한 작업 수행
       const cars = jsonData.data.filterFunction.filterResults;
-      const blackCars = cars.filter((car) => car.content[0].name === "Space");
+      const blackCars = cars.filter(
+        (car) =>
+          car.content[0].name === "Space" &&
+          new Date(car.earliestDeliveryDate) >
+            new Date("2023-11-10T00:00:00.000Z")
+      );
 
       console.log(cars.map((car) => car.content[0].name));
+      console.log(
+        "11월 이후 출고",
+        cars
+          .filter(
+            (car) =>
+              new Date(car.earliestDeliveryDate) >
+              new Date("2023-11-10T00:00:00.000Z")
+          )
+          .map(({ content }) => content[0].name)
+      );
       if (blackCars.length) {
         showNotification();
       }
